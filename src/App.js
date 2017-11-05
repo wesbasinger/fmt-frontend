@@ -17,7 +17,8 @@ class App extends Component {
     super(props);
 	this.state = {
 		view: null,
-		cast: []
+		cast: [],
+    geolocation: null
 	};
 
 	this.handleViewPickerClick = this.handleViewPickerClick.bind(this);
@@ -25,6 +26,7 @@ class App extends Component {
 
   componentDidMount() {
     var self = this;
+
     $.ajax({
       method: "GET",
       url: API_STEM + "cast",
@@ -34,6 +36,18 @@ class App extends Component {
       self.setState({cast: response})
     });
 
+    navigator.geolocation.getCurrentPosition(function(position) {
+      console.log(position)
+      self.setState(
+        {
+          geolocation: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            timestamp: position.timestamp
+          }
+        }
+      );
+    });
   }
 
   handleViewPickerClick(e) {
