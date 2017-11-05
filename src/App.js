@@ -7,6 +7,9 @@ import ViewPicker from './Components/ViewPicker';
 import SignIn from './Components/SignIn';
 import SignOut from './Components/SignOut';
 
+const API_STEM = "https://jydt4o4ppj.execute-api.us-east-1.amazonaws.com/dev/"
+
+var $ = require("jquery");
 
 class App extends Component {
 
@@ -14,9 +17,23 @@ class App extends Component {
     super(props);
 	this.state = {
 		view: null,
+		cast: []
 	};
 
 	this.handleViewPickerClick = this.handleViewPickerClick.bind(this);
+  }
+
+  componentDidMount() {
+    var self = this;
+    $.ajax({
+      method: "GET",
+      url: API_STEM + "cast",
+      contentType: 'application/json',
+      crossDomain: true,
+    }).done(function(response) {
+      self.setState({cast: response})
+    });
+
   }
 
   handleViewPickerClick(e) {
@@ -37,7 +54,7 @@ class App extends Component {
 		return (
 			<div>
 				<Header />
-				<SignIn />
+				<SignIn cast={this.state.cast}/>
 				<Footer />
 			</div>
 		)
