@@ -53,17 +53,25 @@ class App extends Component {
 
   handleSignIn(formData) {
 
-    console.log(formData)
+    //console.log(formData)
 
-    // $.ajax({
-    //   method: "POST",
-    //   url: API_STEM + "actives",
-    //   contentType: 'application/json',
-    //   crossDomain: true,
-    //   data: {}
-    // }).done(function(response) {
-    //   console.log(response);
-    // });
+    var self = this;
+
+    $.ajax({
+      method: "POST",
+      url: API_STEM + "actives",
+      contentType: 'application/json',
+      crossDomain: true,
+      data: JSON.stringify({
+        "name" : formData.name,
+        "castMember" : formData.castMember,
+        "session" : formData.session,
+        "comments" : formData.comments,
+        "geolocation" : self.state.geolocation
+      })
+    }).done(function(response) {
+      console.log(response);
+    });
   }
 
   handleViewPickerClick(e) {
