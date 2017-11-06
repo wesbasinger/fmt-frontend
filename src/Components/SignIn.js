@@ -2,25 +2,77 @@ import React, { Component } from 'react';
 
 class SignIn extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: "",
+      castMember: "---",
+      session: "---",
+      comments: ""
+    };
+
+    this.onNameChange = this.onNameChange.bind(this);
+    this.onCastMemberChange = this.onCastMemberChange.bind(this);
+    this.onSessionChange = this.onSessionChange.bind(this);
+    this.onCommentsChange = this.onCommentsChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(e) {
+
+    e.preventDefault();
+
+    if (this.state.castMember === "---" || this.state.session === "---" || !this.state.name) {
+      alert("All form values must be turned in.")
+    } else {
+      this.props.onSignIn(
+        {
+          "name" : this.state.name,
+          "castMember" : this.state.castMember,
+          "session" : this.state.session,
+          "comments" : this.state.comments
+        }
+      )
+    }
+  }
+
+  onNameChange(e) {
+    this.setState({name: e.target.value});
+  }
+
+  onCastMemberChange(e) {
+    this.setState({castMember: e.target.value});
+  }
+
+  onSessionChange(e) {
+    this.setState({session: e.target.value});
+  }
+
+  onCommentsChange(e) {
+    this.setState({comments: e.target.value});
+  }
+
   render() {
     return (
 		<div>
 			<h1>Sign In</h1>
-			<form>
-				Name: <input type="text" required="true" />
-				Cast Member: <select>
+			<form onSubmit={this.handleSubmit} >
+				Name: <input onChange={this.onNameChange} name="name" type="text" required="true" />
+				Cast Member: <select value={this.state.castMember} onChange={this.onCastMemberChange} name="castMember">
+                <option>---</option>
 								{
 									this.props.cast.map(function(castMember) {
 										return(
-											<option key={castMember.firstName+" " + castMember.lastName}>{castMember.firstName + " " + castMember.lastName}</option>
+											<option value={castMember.firstName+" " + castMember.lastName} key={castMember.firstName+" " + castMember.lastName}>{castMember.firstName + " " + castMember.lastName}</option>
 										)
-									})	
+									})
 								}
 							</select>
-				Session: <select>
-							<option>SP18 - Beauty and the Beast</option>
+				Session: <select value={this.state.session} onChange={this.onSessionChange}  name="session">
+              <option>---</option>
+							<option value="SP18 - Beauty and the Beast">SP18 - Beauty and the Beast</option>
 						 </select>
-				Comments: <textarea />
+				Comments: <textarea onChange={this.onCommentsChange} name="comments"/>
 				<button>Submit</button>
 			</form>
 		</div>

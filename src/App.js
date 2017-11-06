@@ -22,6 +22,7 @@ class App extends Component {
 	};
 
 	this.handleViewPickerClick = this.handleViewPickerClick.bind(this);
+  this.handleSignIn = this.handleSignIn.bind(this);
   }
 
   componentDidMount() {
@@ -50,6 +51,21 @@ class App extends Component {
     });
   }
 
+  handleSignIn(formData) {
+
+    console.log(formData)
+
+    // $.ajax({
+    //   method: "POST",
+    //   url: API_STEM + "actives",
+    //   contentType: 'application/json',
+    //   crossDomain: true,
+    //   data: {}
+    // }).done(function(response) {
+    //   console.log(response);
+    // });
+  }
+
   handleViewPickerClick(e) {
     this.setState({view: e.target.value});
   }
@@ -68,7 +84,7 @@ class App extends Component {
 		return (
 			<div>
 				<Header />
-				<SignIn cast={this.state.cast}/>
+				<SignIn onSignIn={this.handleSignIn} cast={this.state.cast}/>
 				<Footer />
 			</div>
 		)
