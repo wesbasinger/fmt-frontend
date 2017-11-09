@@ -68,7 +68,7 @@ class SignIn extends Component {
 								{
 									this.props.cast.map(function(castMember) {
 										return(
-											<option value={castMember._id + "$:-)" + castMember.firstName+" " + castMember.lastName} key={castMember._id}>{castMember.firstName + " " + castMember.lastName}</option>
+											<option key={castMember._id} value={castMember._id + "$:-)" + castMember.firstName+" " + castMember.lastName}>{castMember.firstName + " " + castMember.lastName}</option>
 										)
 									})
 								}

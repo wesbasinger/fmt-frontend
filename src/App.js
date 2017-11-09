@@ -16,6 +16,7 @@ class App extends Component {
   constructor(props) {
     super(props);
 	this.state = {
+    error: "",
 		view: null,
 		cast: [],
     geolocation: null
@@ -71,7 +72,16 @@ class App extends Component {
         "geolocation" : self.state.geolocation
       })
     }).done(function(response) {
-      console.log(response);
+
+      if(response.success) {
+        /***********************//***********************/
+        // Would like to set a success message here eventually //
+        /***********************//***********************/
+        self.setState({view: null});
+      } else {
+        self.setState({error: response.message});
+        self.setState({view: "error"});
+      }
     });
   }
 
@@ -105,6 +115,16 @@ class App extends Component {
 				<Footer />
 			</div>
 		)
+	} else if (this.state.view === 'error') {
+    return (
+      <div>
+        /***********************//***********************/
+        // Would like to eventually have a message component and send message as props.
+        /***********************//***********************/
+        <p>Error message: {this.state.error}</p>
+      </div>
+    )
+
 	}
   }
 }
