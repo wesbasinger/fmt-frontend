@@ -64,7 +64,8 @@ class App extends Component {
       crossDomain: true,
       data: JSON.stringify({
         "name" : formData.name,
-        "castMember" : formData.castMember,
+        "castMemberName" : formData.castMemberName,
+        "castMemberId" : formData.castMemberId,
         "session" : formData.session,
         "comments" : formData.comments,
         "geolocation" : self.state.geolocation

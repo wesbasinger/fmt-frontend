@@ -6,7 +6,8 @@ class SignIn extends Component {
     super(props);
     this.state = {
       name: "",
-      castMember: "---",
+      castMemberName: "---",
+      castMemberId: "",
       session: "---",
       comments: ""
     };
@@ -28,8 +29,9 @@ class SignIn extends Component {
       this.props.onSignIn(
         {
           "name" : this.state.name,
-          "castMember" : this.state.castMember,
-          "session" : this.state.session,
+          "castMemberName" : this.state.castMemberName,
+          "castMemberId" : this.state.castMemberId,
+           "session" : this.state.session,
           "comments" : this.state.comments
         }
       )
@@ -41,7 +43,10 @@ class SignIn extends Component {
   }
 
   onCastMemberChange(e) {
-    this.setState({castMember: e.target.value});
+    // putting two data values into one string.
+    var hackyDelim = e.target.value.split("$:-)");
+    this.setState({castMemberId: hackyDelim[0]});
+    this.setState({castMemberName: hackyDelim[1]});
   }
 
   onSessionChange(e) {
@@ -63,7 +68,7 @@ class SignIn extends Component {
 								{
 									this.props.cast.map(function(castMember) {
 										return(
-											<option value={castMember.firstName+" " + castMember.lastName} key={castMember.firstName+" " + castMember.lastName}>{castMember.firstName + " " + castMember.lastName}</option>
+											<option value={castMember._id + "$:-)" + castMember.firstName+" " + castMember.lastName} key={castMember._id}>{castMember.firstName + " " + castMember.lastName}</option>
 										)
 									})
 								}
