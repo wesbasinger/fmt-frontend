@@ -16,6 +16,7 @@ class App extends Component {
   constructor(props) {
     super(props);
 	this.state = {
+    actives: [],
     error: "",
 		view: null,
 		cast: [],
@@ -37,6 +38,15 @@ class App extends Component {
     }).done(function(response) {
       self.setState({cast: response})
     });
+
+    $.ajax({
+      method: "GET",
+      url: API_STEM + "actives",
+      contentType: 'application/json',
+      crossDomain: true
+    }).done(function(response) {
+      self.setState({actives: response});
+    })
 
     navigator.geolocation.getCurrentPosition(function(position) {
       console.log(position)
@@ -111,7 +121,7 @@ class App extends Component {
 		return (
 			<div>
 				<Header />
-				<SignOut />
+				<SignOut actives={this.state.actives}/>
 				<Footer />
 			</div>
 		)
