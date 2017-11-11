@@ -6,6 +6,7 @@ import Footer from './Components/Footer';
 import ViewPicker from './Components/ViewPicker';
 import SignIn from './Components/SignIn';
 import SignOut from './Components/SignOut';
+import Message from './Components/Message';
 
 const API_STEM = "https://jydt4o4ppj.execute-api.us-east-1.amazonaws.com/dev/"
 
@@ -26,6 +27,8 @@ class App extends Component {
 	this.handleViewPickerClick = this.handleViewPickerClick.bind(this);
   this.handleSignIn = this.handleSignIn.bind(this);
   this.handleSignOut = this.handleSignOut.bind(this);
+  this.refreshActives = this.refreshActives.bind(this);
+  this.resetView = this.resetView.bind(this);
   }
 
   componentDidMount() {
@@ -40,14 +43,7 @@ class App extends Component {
       self.setState({cast: response})
     });
 
-    $.ajax({
-      method: "GET",
-      url: API_STEM + "actives",
-      contentType: 'application/json',
-      crossDomain: true
-    }).done(function(response) {
-      self.setState({actives: response});
-    })
+    this.refreshActives();
 
     navigator.geolocation.getCurrentPosition(function(position) {
       console.log(position)
@@ -61,6 +57,24 @@ class App extends Component {
         }
       );
     });
+  }
+
+  resetView() {
+    this.setState({"view": null});
+  }
+
+  refreshActives() {
+
+    var self = this;
+
+    $.ajax({
+      method: "GET",
+      url: API_STEM + "actives",
+      contentType: 'application/json',
+      crossDomain: true
+    }).done(function(response) {
+      self.setState({actives: response});
+    })
   }
 
   handleSignIn(formData) {
@@ -85,12 +99,10 @@ class App extends Component {
     }).done(function(response) {
 
       if(response.success) {
-        /***********************//***********************/
-        // Would like to set a success message here eventually //
-        /***********************//***********************/
-        self.setState({view: null});
+        self.refreshActives();
+        self.setState({view: "message", message: "Successfully signed in."});
       } else {
-        self.setState({error: response.message});
+        self.setState({message: response.message});
         self.setState({view: "error"});
       }
     });
@@ -110,7 +122,7 @@ class App extends Component {
         "timestamp" : formData.timestamp
       })
     }).done(function(response) {
-      console.log(response);
+      self.setState({view: "message", message: response.message})
     })
   }
 
@@ -144,16 +156,14 @@ class App extends Component {
 				<Footer />
 			</div>
 		)
-	} else if (this.state.view === 'error') {
+	} else if (this.state.view === 'message') {
     return (
       <div>
-        /***********************//***********************/
-        // Would like to eventually have a message component and send message as props.
-        /***********************//***********************/
-        <p>Error message: {this.state.error}</p>
+        <Header />
+        <Message onResetRequest={this.resetView} message={this.state.message} />
+        <Footer />
       </div>
     )
-
 	}
   }
 }
