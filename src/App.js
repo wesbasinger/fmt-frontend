@@ -28,25 +28,17 @@ class App extends Component {
   this.handleSignIn = this.handleSignIn.bind(this);
   this.handleSignOut = this.handleSignOut.bind(this);
   this.refreshActives = this.refreshActives.bind(this);
+  this.refreshCast = this.refreshCast.bind(this);
   this.resetView = this.resetView.bind(this);
   }
 
   componentDidMount() {
     var self = this;
 
-    $.ajax({
-      method: "GET",
-      url: API_STEM + "cast",
-      contentType: 'application/json',
-      crossDomain: true,
-    }).done(function(response) {
-      self.setState({cast: response})
-    });
-
+    this.refreshCast();
     this.refreshActives();
 
     navigator.geolocation.getCurrentPosition(function(position) {
-      console.log(position)
       self.setState(
         {
           geolocation: {
@@ -61,6 +53,21 @@ class App extends Component {
 
   resetView() {
     this.setState({"view": null});
+  }
+
+  refreshCast() {
+
+    var self = this;
+
+    $.ajax({
+      method: "GET",
+      url: API_STEM + "cast",
+      contentType: 'application/json',
+      crossDomain: true,
+    }).done(function(response) {
+      self.setState({cast: response})
+    });
+
   }
 
   refreshActives() {
@@ -78,8 +85,6 @@ class App extends Component {
   }
 
   handleSignIn(formData) {
-
-    //console.log(formData)
 
     var self = this;
 
@@ -100,6 +105,7 @@ class App extends Component {
 
       if(response.success) {
         self.refreshActives();
+        self.refreshCast();
         self.setState({view: "message", message: "Successfully signed in."});
       } else {
         self.setState({message: response.message});
@@ -123,6 +129,8 @@ class App extends Component {
       })
     }).done(function(response) {
       self.setState({view: "message", message: response.message})
+      self.refreshCast();
+      self.refreshActives();
     })
   }
 
