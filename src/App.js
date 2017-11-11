@@ -25,6 +25,7 @@ class App extends Component {
 
 	this.handleViewPickerClick = this.handleViewPickerClick.bind(this);
   this.handleSignIn = this.handleSignIn.bind(this);
+  this.handleSignOut = this.handleSignOut.bind(this);
   }
 
   componentDidMount() {
@@ -95,6 +96,24 @@ class App extends Component {
     });
   }
 
+  handleSignOut(formData) {
+
+    var self = this;
+
+    $.ajax({
+      method: "DELETE",
+      url: API_STEM + "actives",
+      contentType: 'application/json',
+      crossDomain: true,
+      data: JSON.stringify({
+        "activeId" : formData.activeId,
+        "timestamp" : formData.timestamp
+      })
+    }).done(function(response) {
+      console.log(response);
+    })
+  }
+
   handleViewPickerClick(e) {
     this.setState({view: e.target.value});
   }
@@ -121,7 +140,7 @@ class App extends Component {
 		return (
 			<div>
 				<Header />
-				<SignOut actives={this.state.actives}/>
+				<SignOut onSignOut={this.handleSignOut} actives={this.state.actives}/>
 				<Footer />
 			</div>
 		)

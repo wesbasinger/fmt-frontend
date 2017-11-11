@@ -23,7 +23,7 @@ class SignOut extends Component {
     if(!this.state.activeId) {
       alert("Must select a workday name to sign out.")
     } else {
-      console.log(this.state.activeId);
+      this.props.onSignOut({activeId: this.state.activeId, timestamp: Date.now()})
     }
 
   }
