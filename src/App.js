@@ -7,8 +7,11 @@ import ViewPicker from './Components/ViewPicker';
 import SignIn from './Components/SignIn';
 import SignOut from './Components/SignOut';
 import Message from './Components/Message';
+import Lookup from './Components/Lookup';
 
 const API_STEM = "https://jydt4o4ppj.execute-api.us-east-1.amazonaws.com/dev/"
+
+const ACTIVE_SESSION = "SP18";
 
 var $ = require("jquery");
 
@@ -30,6 +33,7 @@ class App extends Component {
   this.refreshActives = this.refreshActives.bind(this);
   this.refreshCast = this.refreshCast.bind(this);
   this.resetView = this.resetView.bind(this);
+  this.changeToLookup = this.changeToLookup.bind(this);
   }
 
   componentDidMount() {
@@ -49,6 +53,10 @@ class App extends Component {
         }
       );
     });
+  }
+
+  changeToLookup() {
+    this.setState({"view" : "lookup"})
   }
 
   resetView() {
@@ -145,6 +153,7 @@ class App extends Component {
 				<div>
 					<Header />
 					<ViewPicker onViewPickerClick={this.handleViewPickerClick} />
+          <button onClick={this.changeToLookup}>Lookup Hours</button>
 					<Footer />
 				</div>
 			)
@@ -172,7 +181,15 @@ class App extends Component {
         <Footer />
       </div>
     )
-	}
+	} else if (this.state.view === "lookup") {
+    return (
+      <div>
+        <Header />
+        <Lookup ACTIVE_SESSION={ACTIVE_SESSION} cast={this.state.cast}/>
+        <Footer />
+      </div>
+    )
+  }
   }
 }
 
