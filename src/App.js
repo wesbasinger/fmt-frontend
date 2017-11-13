@@ -152,8 +152,10 @@ class App extends Component {
 			return (
 				<div>
 					<Header />
-					<ViewPicker onViewPickerClick={this.handleViewPickerClick} />
-          <button onClick={this.changeToLookup}>Lookup Hours</button>
+          <main role="main" className="container">
+  					<ViewPicker onViewPickerClick={this.handleViewPickerClick} />
+            <button onClick={this.changeToLookup}>Lookup Hours</button>
+          </main>
 					<Footer />
 				</div>
 			)
@@ -161,7 +163,9 @@ class App extends Component {
 		return (
 			<div>
 				<Header />
-				<SignIn onSignIn={this.handleSignIn} cast={this.state.cast}/>
+        <main role="main" className="container">
+  				<SignIn onSignIn={this.handleSignIn} cast={this.state.cast}/>
+        </main>
 				<Footer />
 			</div>
 		)
@@ -169,7 +173,9 @@ class App extends Component {
 		return (
 			<div>
 				<Header />
-				<SignOut onSignOut={this.handleSignOut} actives={this.state.actives}/>
+        <main role="main" className="container">
+  				<SignOut onSignOut={this.handleSignOut} actives={this.state.actives}/>
+        </main>
 				<Footer />
 			</div>
 		)
@@ -177,7 +183,9 @@ class App extends Component {
     return (
       <div>
         <Header />
-        <Message onResetRequest={this.resetView} message={this.state.message} />
+        <main role="main" className="container">
+          <Message onResetRequest={this.resetView} message={this.state.message} />
+        </main>
         <Footer />
       </div>
     )
@@ -185,7 +193,9 @@ class App extends Component {
     return (
       <div>
         <Header />
-        <Lookup ACTIVE_SESSION={ACTIVE_SESSION} cast={this.state.cast}/>
+        <main role="main" className="container">
+          <Lookup ACTIVE_SESSION={ACTIVE_SESSION} cast={this.state.cast}/>
+        </main>
         <Footer />
       </div>
     )

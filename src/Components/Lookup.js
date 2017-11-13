@@ -37,7 +37,7 @@ class Lookup extends Component {
     if(!this.state.castMember) {
 
       return (
-      <div>
+      <div className="starter-template">
         <h1>Lookup</h1>
         <form onSubmit={this.handleSubmit}>
           Cast Member: <select value={this.state.active} onChange={this.onActiveChange} name="castMember">

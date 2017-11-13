@@ -4,7 +4,9 @@ class Header extends Component {
   render() {
     return (
 		<div>
-			This is a header
+      <nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <a className="navbar-brand" href="/">FMT Workday Sign In</a>
+      </nav>
 		</div>
 	)
   }

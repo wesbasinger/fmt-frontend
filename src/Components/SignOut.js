@@ -30,10 +30,11 @@ class SignOut extends Component {
 
   render() {
     return (
-		<div>
+		<div className="starter-template">
 			<p>Individuals currently signed in</p>
       <form onSubmit={this.handleSubmit}>
-        <select value={this.state.activeId} onChange={this.onActiveChange}>
+        <div className="form-group">
+        <select className="form-control" value={this.state.activeId} onChange={this.onActiveChange}>
           <option>---</option>
           {
             this.props.actives.map(function(active) {
@@ -43,7 +44,8 @@ class SignOut extends Component {
             })
           }
         </select>
-        <button value="submit">Submit</button>
+        <button type="submit" className="btn btn-primary" value="submit">Submit</button>
+        </div>
       </form>
 		</div>
 

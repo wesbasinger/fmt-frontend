@@ -5,18 +5,18 @@ class CastDetail extends Component {
   render() {
 
     return (
-      <div>
+      <div className="starter-template">
         <h1>Cast Name: {this.props.castMember.firstName + " " + this.props.castMember.lastName}</h1>
         <h1>Active Session: {this.props.ACTIVE_SESSION} </h1>
         <h1>Current Hours: {this.props.castMember.hours[this.props.ACTIVE_SESSION]}</h1>
-        <table>
+        <table className="table table-striped">
           <thead>
             <tr>
-              <td>Workperson</td>
-              <td>Datestamp</td>
-              <td>Type</td>
-              <td>Comments</td>
-              <td>Logged Hours</td>
+              <td><strong>Workperson</strong></td>
+              <td><strong>Datestamp</strong></td>
+              <td><strong>Type</strong></td>
+              <td><strong>Comments</strong></td>
+              <td><strong>Logged Hours</strong></td>
             </tr>
           </thead>
           <tbody>
