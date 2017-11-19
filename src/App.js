@@ -21,7 +21,7 @@ class App extends Component {
     super(props);
 	this.state = {
     actives: [],
-    error: "",
+    message: "",
 		view: null,
 		cast: [],
     geolocation: null
@@ -111,13 +111,15 @@ class App extends Component {
       })
     }).done(function(response) {
 
+      console.log(response);
+
       if(response.success) {
         self.refreshActives();
         self.refreshCast();
         self.setState({view: "message", message: "Successfully signed in."});
       } else {
         self.setState({message: response.message});
-        self.setState({view: "error"});
+        self.setState({view: "message"});
       }
     });
   }
