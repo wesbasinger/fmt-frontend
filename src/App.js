@@ -135,6 +135,7 @@ class App extends Component {
       crossDomain: true,
       data: JSON.stringify({
         "activeId" : formData.activeId,
+        "geolocation" : self.state.geolocation,
         "timestamp" : formData.timestamp
       })
     }).done(function(response) {
