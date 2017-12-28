@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 
+import {
+  BrowserRouter as Router,
+  Route,
+  Link } from 'react-router-dom';
+
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 
@@ -22,18 +27,14 @@ class App extends Component {
 	this.state = {
     actives: [],
     message: "",
-		view: null,
 		cast: [],
     geolocation: null
 	};
 
-	this.handleViewPickerClick = this.handleViewPickerClick.bind(this);
   this.handleSignIn = this.handleSignIn.bind(this);
   this.handleSignOut = this.handleSignOut.bind(this);
   this.refreshActives = this.refreshActives.bind(this);
   this.refreshCast = this.refreshCast.bind(this);
-  this.resetView = this.resetView.bind(this);
-  this.changeToLookup = this.changeToLookup.bind(this);
   }
 
   componentDidMount() {
@@ -53,14 +54,6 @@ class App extends Component {
         }
       );
     });
-  }
-
-  changeToLookup() {
-    this.setState({"view" : "lookup"})
-  }
-
-  resetView() {
-    this.setState({"view": null});
   }
 
   refreshCast() {
@@ -145,71 +138,87 @@ class App extends Component {
     })
   }
 
-  handleViewPickerClick(e) {
-    this.setState({view: e.target.value});
-  }
-
   render() {
-
-	if (!this.state.view) {
-			return (
-				<div>
-					<Header />
-          <main role="main" className="container">
-  					<ViewPicker onViewPickerClick={this.handleViewPickerClick} />
-            <button onClick={this.changeToLookup}>Lookup Hours</button>
-          </main>
-					<Footer />
-				</div>
-			)
-	} else if (this.state.view === "signIn") {
-		return (
-			<div>
-				<Header />
-        <main role="main" className="container">
-  				<SignIn onSignIn={this.handleSignIn} cast={this.state.cast}/>
-        </main>
-				<Footer />
-			</div>
-		)
-	} else if (this.state.view === 'signOut') {
-		return (
-			<div>
-				<Header />
-        <main role="main" className="container">
-  				<SignOut onSignOut={this.handleSignOut} actives={this.state.actives}/>
-        </main>
-				<Footer />
-			</div>
-		)
-	} else if (this.state.view === 'message') {
-    return (
-      <div>
-        <Header />
-        <main role="main" className="container">
-          <Message onResetRequest={this.resetView} message={this.state.message} />
-        </main>
-        <Footer />
-      </div>
-    )
-	} else if (this.state.view === "lookup") {
-    return (
-      <div>
-        <Header />
-        <main role="main" className="container">
-          <Lookup ACTIVE_SESSION={ACTIVE_SESSION} cast={this.state.cast}/>
-        </main>
-        <Footer />
-      </div>
-    )
-  } else {
     return(
-      <div>
-        Loading...
-      </div>
+      <Router>
+        <div>
+          <Header />
+            <Route exact path="/" component={ViewPicker}/>
+            <Route path="/signIn" render={()=><SignIn
+              cast={this.state.cast}
+              onSignIn={this.handleSignIn}/>} />
+            <Route path="/signOut" render={()=><SignOut
+              actives={this.state.actives}
+              onSignOut={this.handleSignOut}/>} />
+            <Route path="/message" component={Message} />
+            <Route path="/lookup" render={()=><Lookup
+              cast={this.state.cast}/>} />
+          <Footer />
+        </div>
+      </Router>
     )
-  }
   }
 }
 
 export default App;
+  // render() {
+  //
+	// if (!this.state.view) {
+	// 		return (
+	// 			<div>
+	// 				<Header />
+  //         <main role="main" className="container">
+  // 					<ViewPicker onViewPickerClick={this.handleViewPickerClick} />
+  //           <button onClick={this.changeToLookup}>Lookup Hours</button>
+  //         </main>
+	// 				<Footer />
+	// 			</div>
+	// 		)
+	// } else if (this.state.view === "signIn") {
+	// 	return (
+	// 		<div>
+	// 			<Header />
+  //       <main role="main" className="container">
+  // 				<SignIn onSignIn={this.handleSignIn} cast={this.state.cast}/>
+  //       </main>
+	// 			<Footer />
+	// 		</div>
+	// 	)
+	// } else if (this.state.view === 'signOut') {
+	// 	return (
+	// 		<div>
+	// 			<Header />
+  //       <main role="main" className="container">
+  // 				<SignOut onSignOut={this.handleSignOut} actives={this.state.actives}/>
+  //       </main>
+	// 			<Footer />
+	// 		</div>
+	// 	)
+	// } else if (this.state.view === 'message') {
+  //   return (
+  //     <div>
+  //       <Header />
+  //       <main role="main" className="container">
+  //         <Message onResetRequest={this.resetView} message={this.state.message} />
+  //       </main>
+  //       <Footer />
+  //     </div>
+  //   )
+	// } else if (this.state.view === "lookup") {
+  //   return (
+  //     <div>
+  //       <Header />
+  //       <main role="main" className="container">
+  //         <Lookup ACTIVE_SESSION={ACTIVE_SESSION} cast={this.state.cast}/>
+  //       </main>
+  //       <Footer />
+  //     </div>
+  //   )
+  // } else {
+  //   return(
+  //     <div>
+  //       Loading...
+  //     </div>
+  //   )
+  // }
+  // }
