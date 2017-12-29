@@ -12,11 +12,13 @@ import SignIn from './Components/SignIn';
 import SignOut from './Components/SignOut';
 import Message from './Components/Message';
 import Lookup from './Components/Lookup';
-import Export from './Components/Export';
+import Admin from './Components/Admin';
 
 const API_STEM = "https://jydt4o4ppj.execute-api.us-east-1.amazonaws.com/dev/"
 
 const ACTIVE_SESSION = "SP18";
+
+const PASSWORD = "fmt"
 
 var $ = require("jquery");
 
@@ -28,13 +30,15 @@ class App extends Component {
     actives: [],
     message: "",
 		cast: [],
-    geolocation: null
+    geolocation: null,
+    isAdmin: false
 	};
 
   this.handleSignIn = this.handleSignIn.bind(this);
   this.handleSignOut = this.handleSignOut.bind(this);
   this.refreshActives = this.refreshActives.bind(this);
   this.refreshCast = this.refreshCast.bind(this);
+  this.handleAuthentication = this.handleAuthentication.bind(this);
   }
 
   componentDidMount() {
@@ -137,11 +141,17 @@ class App extends Component {
     })
   }
 
+  handleAuthentication(password) {
+    if(password === PASSWORD) {
+      this.setState({isAdmin: true})
+    }
+  }
+
   render() {
     return(
       <Router basename="/fmt-workday">
         <div>
-          <Header />
+          <Header isAdmin={this.state.isAdmin}/>
             <Route exact path="/" component={ViewPicker}/>
             <Route path="/signIn" render={()=><SignIn
               cast={this.state.cast}
@@ -153,10 +163,10 @@ class App extends Component {
             <Route path="/lookup" render={()=><Lookup
               cast={this.state.cast}
               ACTIVE_SESSION={ACTIVE_SESSION}/>} />
-            <Route path="/export" render={
-              ()=> <Export cast={this.state.cast}/>
+            <Route path="/admin" render={
+              ()=> <Admin cast={this.state.cast}/>
             }/>
-          <Footer />
+          <Footer isAdmin={this.state.isAdmin} onAuthenticationRequest={this.handleAuthentication}/>
         </div>
       </Router>
     )
