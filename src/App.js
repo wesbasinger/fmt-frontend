@@ -39,6 +39,7 @@ class App extends Component {
   this.refreshActives = this.refreshActives.bind(this);
   this.refreshCast = this.refreshCast.bind(this);
   this.handleAuthentication = this.handleAuthentication.bind(this);
+  this.handleAddNewCast = this.handleAddNewCast.bind(this);
   }
 
   componentDidMount() {
@@ -147,6 +148,30 @@ class App extends Component {
     }
   }
 
+  handleAddNewCast(formData) {
+
+    var self = this;
+
+    $.ajax({
+      method: "POST",
+      url: API_STEM + "cast",
+      contentType: 'application/json',
+      crossDomain: true,
+      data: JSON.stringify({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        activeSessions: [ACTIVE_SESSION],
+        hours: {
+          ACTIVE_SESSION: 0
+        },
+        history: []
+      })
+    }).done(function(response) {
+      console.log(response);
+      self.refreshCast();
+    });
+  }
+
   render() {
     return(
       <Router basename="/fmt-workday">
@@ -164,7 +189,9 @@ class App extends Component {
               cast={this.state.cast}
               ACTIVE_SESSION={ACTIVE_SESSION}/>} />
             <Route path="/admin" render={
-              ()=> <Admin cast={this.state.cast}/>
+              ()=> <Admin
+                onCastMemberAdd={this.handleAddNewCast}
+                cast={this.state.cast}/>
             }/>
           <Footer isAdmin={this.state.isAdmin} onAuthenticationRequest={this.handleAuthentication}/>
         </div>
