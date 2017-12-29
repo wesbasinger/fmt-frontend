@@ -16,7 +16,7 @@ class Export extends Component {
 
     return(
       <div className="starter-template">
-        <CSVLink data={history}>Download as CSV</CSVLink>
+        <CSVLink data={history} filename={"fmt-workday-data.csv"}><h2>Download as CSV</h2></CSVLink>
         <table className="table table-striped">
           <thead>
             <tr>
