@@ -12,6 +12,7 @@ import SignIn from './Components/SignIn';
 import SignOut from './Components/SignOut';
 import Message from './Components/Message';
 import Lookup from './Components/Lookup';
+import Export from './Components/Export';
 
 const API_STEM = "https://jydt4o4ppj.execute-api.us-east-1.amazonaws.com/dev/"
 
@@ -152,6 +153,9 @@ class App extends Component {
             <Route path="/lookup" render={()=><Lookup
               cast={this.state.cast}
               ACTIVE_SESSION={ACTIVE_SESSION}/>} />
+            <Route path="/export" render={
+              ()=> <Export cast={this.state.cast}/>
+            }/>
           <Footer />
         </div>
       </Router>

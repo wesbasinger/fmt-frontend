@@ -12,7 +12,7 @@ class Message extends Component {
           <h1>Message:</h1>
           <p className="lead">{this.props.message}</p>
         </div>
-        <Link to="/"><button>Return to Home</button></Link>
+        <Link to="/"><button onClick={()=> {window.location.reload()}}>Return to Home</button></Link>
       </div>
 	  )
   }
