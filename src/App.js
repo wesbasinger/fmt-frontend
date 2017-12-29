@@ -138,7 +138,7 @@ class App extends Component {
 
   render() {
     return(
-      <Router>
+      <Router basename="/fmt-workday">
         <div>
           <Header />
             <Route exact path="/" component={ViewPicker}/>
