@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { CSVLink, CSVDownload } from 'react-csv';
+import { CSVLink } from 'react-csv';
 
 class Export extends Component {
 
