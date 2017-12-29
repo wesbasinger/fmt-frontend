@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Redirect } from 'react-router-dom';
+
 class SignIn extends Component {
 
   constructor(props) {
@@ -9,7 +11,8 @@ class SignIn extends Component {
       castMemberName: "---",
       castMemberId: "",
       session: "---",
-      comments: ""
+      comments: "",
+      formComplete: false
     };
 
     this.onNameChange = this.onNameChange.bind(this);
@@ -35,6 +38,7 @@ class SignIn extends Component {
           "comments" : this.state.comments
         }
       )
+      this.setState({formComplete:true})
     }
   }
 
@@ -58,36 +62,42 @@ class SignIn extends Component {
   }
 
   render() {
-    return (
-		<div className="starter-template">
-			<h1>Sign In</h1>
-			<form onSubmit={this.handleSubmit} >
-        <div className="form-group">
-          <label htmlFor="name">Name</label>
-  				<input className="form-control" onChange={this.onNameChange} name="name" type="text" required="true" />
-          <label htmlFor="cast-member">Cast Member</label>
-  				<select className="form-control" name="cast-member" value={this.state.castMember} onChange={this.onCastMemberChange} name="castMember">
+    if (this.state.formComplete) {
+      return (
+        <Redirect to="/message" />
+      )
+    } else {
+      return (
+      <div className="starter-template">
+        <h1>Sign In</h1>
+        <form onSubmit={this.handleSubmit} >
+          <div className="form-group">
+            <label htmlFor="name">Name</label>
+            <input className="form-control" onChange={this.onNameChange} name="name" type="text" required="true" />
+            <label htmlFor="cast-member">Cast Member</label>
+            <select className="form-control" name="cast-member" value={this.state.castMember} onChange={this.onCastMemberChange}>
+                    <option>---</option>
+                    {
+                      this.props.cast.map(function(castMember) {
+                        return(
+                          <option key={castMember._id} value={castMember._id + "$:-)" + castMember.firstName+" " + castMember.lastName}>{castMember.firstName + " " + castMember.lastName}</option>
+                        )
+                      })
+                    }
+                  </select>
+            <label htmlFor="session">Session</label>
+            <select className="form-control" name="session" value={this.state.session} onChange={this.onSessionChange}>
                   <option>---</option>
-  								{
-  									this.props.cast.map(function(castMember) {
-  										return(
-  											<option key={castMember._id} value={castMember._id + "$:-)" + castMember.firstName+" " + castMember.lastName}>{castMember.firstName + " " + castMember.lastName}</option>
-  										)
-  									})
-  								}
-  							</select>
-          <label htmlFor="session">Session</label>
-  				<select className="form-control" name="session" value={this.state.session} onChange={this.onSessionChange}  name="session">
-                <option>---</option>
-  							<option value="SP18 - Beauty and the Beast">SP18 - Beauty and the Beast</option>
-  						 </select>
-          <label htmlFor="comments">Comments</label>
-  				<textarea name="comments" className="form-control" onChange={this.onCommentsChange} name="comments"/>
-  				<button type="submit" className="btn btn-primary">Submit</button>
-        </div>
-			</form>
-		</div>
-	)
+                  <option value="SP18 - Beauty and the Beast">SP18 - Beauty and the Beast</option>
+                 </select>
+            <label htmlFor="comments">Comments</label>
+            <textarea name="comments" className="form-control" onChange={this.onCommentsChange}/>
+            <button type="submit" className="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    )
+    }
   }
 }
 

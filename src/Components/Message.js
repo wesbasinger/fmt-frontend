@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { Link } from 'react-router-dom';
+
 class Message extends Component {
 
 
@@ -10,7 +12,7 @@ class Message extends Component {
           <h1>Message:</h1>
           <p className="lead">{this.props.message}</p>
         </div>
-        <button onClick={this.props.onResetRequest}>Return to Home</button>
+        <Link to="/"><button>Return to Home</button></Link>
       </div>
 	  )
   }

@@ -16,6 +16,7 @@ class ViewPicker extends Component {
           <button type="button" className="btn btn-primary btn-lg">Sign Out</button>
         </Link>
       </div>
+      <div><Link to="/lookup"><button>Lookup Hours</button></Link></div>
 		</div>
 	)
   }

@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 
+import { Redirect } from 'react-router-dom';
+
 class SignOut extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      activeId: ""
+      activeId: "",
+      formComplete: false
     }
 
     this.onActiveChange = this.onActiveChange.bind(this);
@@ -24,32 +27,39 @@ class SignOut extends Component {
       alert("Must select a workday name to sign out.")
     } else {
       this.props.onSignOut({activeId: this.state.activeId, timestamp: Date.now()})
+      this.setState({formComplete: true})
     }
 
   }
 
   render() {
-    return (
-		<div className="starter-template">
-			<p>Individuals currently signed in</p>
-      <form onSubmit={this.handleSubmit}>
-        <div className="form-group">
-        <select className="form-control" value={this.state.activeId} onChange={this.onActiveChange}>
-          <option>---</option>
-          {
-            this.props.actives.map(function(active) {
-              return (
-                <option key={active._id} value={active._id}>Name: {active.name}</option>
-              )
-            })
-          }
-        </select>
-        <button type="submit" className="btn btn-primary" value="submit">Submit</button>
-        </div>
-      </form>
-		</div>
 
-	)
+    if(this.state.formComplete) {
+      return (
+        <Redirect to="/message" />
+      )
+    } else {
+      return (
+        <div className="starter-template">
+          <p>Individuals currently signed in</p>
+          <form onSubmit={this.handleSubmit}>
+            <div className="form-group">
+            <select className="form-control" value={this.state.activeId} onChange={this.onActiveChange}>
+              <option>---</option>
+              {
+                this.props.actives.map(function(active) {
+                  return (
+                    <option key={active._id} value={active._id}>Name: {active.name}</option>
+                  )
+                })
+              }
+            </select>
+            <button type="submit" className="btn btn-primary" value="submit">Submit</button>
+            </div>
+          </form>
+        </div>
+      )  
+    }
   }
 }
 
