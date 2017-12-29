@@ -13,6 +13,7 @@ import SignOut from './Components/SignOut';
 import Message from './Components/Message';
 import Lookup from './Components/Lookup';
 import Admin from './Components/Admin';
+import About from './Components/About';
 
 const API_STEM = "https://jydt4o4ppj.execute-api.us-east-1.amazonaws.com/dev/"
 
@@ -31,7 +32,8 @@ class App extends Component {
     message: "",
 		cast: [],
     geolocation: null,
-    isAdmin: false
+    isAdmin: false,
+    markdown: ""
 	};
 
   this.handleSignIn = this.handleSignIn.bind(this);
@@ -59,6 +61,17 @@ class App extends Component {
         }
       );
     });
+
+    $.ajax({
+      method: "GET",
+      url: "https://raw.githubusercontent.com/wesbasinger/fmt-frontend/master/README.md",
+      contentType: 'text/plain',
+      crossDomain: true,
+    }).done(function(response) {
+      self.setState({markdown: response})
+    });
+
+
   }
 
   refreshCast() {
@@ -145,6 +158,8 @@ class App extends Component {
   handleAuthentication(password) {
     if(password === PASSWORD) {
       this.setState({isAdmin: true})
+    } else {
+      alert("Password not correct, try again.")
     }
   }
 
@@ -160,7 +175,7 @@ class App extends Component {
       data: JSON.stringify({
         firstName: formData.firstName,
         lastName: formData.lastName,
-        activeSessions: [ACTIVE_SESSION],
+        activeessions: [ACTIVE_SESSION],
         hours: {
           ACTIVE_SESSION: 0
         },
@@ -188,6 +203,7 @@ class App extends Component {
             <Route path="/lookup" render={()=><Lookup
               cast={this.state.cast}
               ACTIVE_SESSION={ACTIVE_SESSION}/>} />
+            <Route path="/about" render={()=> <About markdown={this.state.markdown}/>} />
             <Route path="/admin" render={
               ()=> <Admin
                 onCastMemberAdd={this.handleAddNewCast}
