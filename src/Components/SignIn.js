@@ -12,6 +12,7 @@ class SignIn extends Component {
       castMemberId: "",
       session: "---",
       comments: "",
+      workFromHome: false,
       formComplete: false
     };
 
@@ -20,6 +21,7 @@ class SignIn extends Component {
     this.onSessionChange = this.onSessionChange.bind(this);
     this.onCommentsChange = this.onCommentsChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onWorkFromHomeChange = this.onWorkFromHomeChange.bind(this);
   }
 
   handleSubmit(e) {
@@ -35,7 +37,8 @@ class SignIn extends Component {
           "castMemberName" : this.state.castMemberName,
           "castMemberId" : this.state.castMemberId,
            "session" : this.state.session,
-          "comments" : this.state.comments
+          "comments" : this.state.comments,
+          "workFromHome" : this.state.workFromHome
         }
       )
       this.setState({formComplete:true})
@@ -59,6 +62,10 @@ class SignIn extends Component {
 
   onCommentsChange(e) {
     this.setState({comments: e.target.value});
+  }
+
+  onWorkFromHomeChange(e) {
+    this.setState({workFromHome: !this.state.workFromHome})
   }
 
   render() {
@@ -90,6 +97,8 @@ class SignIn extends Component {
                   <option>---</option>
                   <option value="SP18 - Beauty and the Beast">SP18 - Beauty and the Beast</option>
                  </select>
+            <label htmlFor="work-from-home">Work From Home</label>
+            <input type="checkbox" className="form-control" onChange={this.onWorkFromHomeChange} />
             <label htmlFor="comments">Comments</label>
             <textarea name="comments" className="form-control" onChange={this.onCommentsChange}/>
             <button type="submit" className="btn btn-primary">Submit</button>

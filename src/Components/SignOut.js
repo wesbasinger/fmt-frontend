@@ -8,16 +8,22 @@ class SignOut extends Component {
     super(props);
     this.state = {
       activeId: "",
-      formComplete: false
+      formComplete: false,
+      workFromHome: false
     }
 
     this.onActiveChange = this.onActiveChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onWorkFromHomeChange = this.onWorkFromHomeChange.bind(this);
 
   }
 
   onActiveChange(e) {
     this.setState({activeId: e.target.value});
+  }
+
+  onWorkFromHomeChange(e) {
+    this.setState({workFromHome: !this.state.workFromHome})
   }
 
   handleSubmit(e) {
@@ -26,7 +32,11 @@ class SignOut extends Component {
     if(!this.state.activeId) {
       alert("Must select a workday name to sign out.")
     } else {
-      this.props.onSignOut({activeId: this.state.activeId, timestamp: Date.now()})
+      this.props.onSignOut({
+        activeId: this.state.activeId,
+        timestamp: Date.now(),
+        workFromHome: this.state.workFromHome
+      })
       this.setState({formComplete: true})
     }
 
@@ -54,11 +64,13 @@ class SignOut extends Component {
                 })
               }
             </select>
+            <label htmlFor="work-from-home">Work From Home</label>
+            <input type="checkbox" className="form-control" onChange={this.onWorkFromHomeChange} />
             <button type="submit" className="btn btn-primary" value="submit">Submit</button>
             </div>
           </form>
         </div>
-      )  
+      )
     }
   }
 }

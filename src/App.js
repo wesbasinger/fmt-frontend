@@ -118,7 +118,8 @@ class App extends Component {
         "castMemberId" : formData.castMemberId,
         "session" : formData.session,
         "comments" : formData.comments,
-        "geolocation" : self.state.geolocation
+        "geolocation" : self.state.geolocation,
+        "workFromHome": formData.workFromHome
       })
     }).done(function(response) {
 
@@ -146,7 +147,8 @@ class App extends Component {
       data: JSON.stringify({
         "activeId" : formData.activeId,
         "geolocation" : self.state.geolocation,
-        "timestamp" : formData.timestamp
+        "timestamp" : formData.timestamp,
+        "workFromHome": formData.workFromHome
       })
     }).done(function(response) {
       self.setState({view: "message", message: response.message})
@@ -167,20 +169,22 @@ class App extends Component {
 
     var self = this;
 
+    const data = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      hours: {},
+      activeSessions: [ACTIVE_SESSION],
+      history: []
+    }
+
+    data.hours[ACTIVE_SESSION] = 0;
+
     $.ajax({
       method: "POST",
       url: API_STEM + "cast",
       contentType: 'application/json',
       crossDomain: true,
-      data: JSON.stringify({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        activeSessions: [ACTIVE_SESSION],
-        hours: {
-          ACTIVE_SESSION: 0
-        },
-        history: []
-      })
+      data: JSON.stringify(data)
     }).done(function(response) {
       console.log(response);
       self.refreshCast();

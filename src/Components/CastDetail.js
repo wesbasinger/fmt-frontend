@@ -28,6 +28,7 @@ class CastDetail extends Component {
               <td><strong>Workperson</strong></td>
               <td><strong>Datestamp</strong></td>
               <td><strong>Type</strong></td>
+              <td><strong>Remote</strong></td>
               <td><strong>Comments</strong></td>
               <td><strong>Logged Hours</strong></td>
             </tr>
@@ -40,6 +41,7 @@ class CastDetail extends Component {
                   <td>{line.name}</td>
                   <td>{line.datestamp}</td>
                   <td>{line.type}</td>
+                  <td>{line.remote ? "Yes" : "No"}</td>
                   <td>{line.comments}</td>
                   <td>{timeFormatter(line.elapsed_hours.toString())}</td>
                 </tr>
