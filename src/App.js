@@ -175,7 +175,7 @@ class App extends Component {
       data: JSON.stringify({
         firstName: formData.firstName,
         lastName: formData.lastName,
-        activeessions: [ACTIVE_SESSION],
+        activeSessions: [ACTIVE_SESSION],
         hours: {
           ACTIVE_SESSION: 0
         },
